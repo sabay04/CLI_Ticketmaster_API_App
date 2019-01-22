@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
   has_many :tickets
-
+  has_many :events, through: :tickets
 
   def self.create_user(name)
     user = User.find_by(name: name)

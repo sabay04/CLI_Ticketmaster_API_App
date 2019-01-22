@@ -13,4 +13,5 @@ welcome
 username = get_user_name
 user = User.create_user(username)
 city = get_location
-get_event_from_api(city)
+events = get_event_from_api(city)
+select_event_from_list(events)

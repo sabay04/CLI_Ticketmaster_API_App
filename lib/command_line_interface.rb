@@ -33,6 +33,19 @@
       location
     end
 
-    #####################this is not the master branch
+    def select_event_from_list(events)
+      counter = 1
+      puts "Here's a list of the 10 most popular events in your location"
+      puts "*******************************************************************"
+        events.each do |event|
+          puts "#{counter}.  #{event}"
+          counter +=1
+        end
+        puts "*****************************************************************"
 
-    
+        puts "Select the number of the event you'd like to attend: "
+
+        selection = gets.chomp.to_i-1
+
+        puts "Congratulations, you're going to #{events[selection]}"
+    end
