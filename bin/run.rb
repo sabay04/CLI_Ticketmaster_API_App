@@ -6,6 +6,8 @@ require_relative '../lib/command_line_interface.rb'
 
 
 require_relative '../app/models/user.rb'
+require_relative '../app/models/Ticket.rb'
+require_relative '../app/models/Events.rb'
 
 
 
@@ -14,4 +16,6 @@ username = get_user_name
 user = User.create_user(username)
 city = get_location
 events = get_event_from_api(city)
-select_event_from_list(events)
+selected_event = select_event_from_list(events)
+create_new_event_ticket(selected_event)
+user.view_saved_events

@@ -1,17 +1,15 @@
 
 
     def welcome
-
-            puts "Welcome to Sounds Good! The worlds ONLY concert searching app"
-
+          system("clear")
+            puts "Welcome to Sounds Good! The world's ONLY concert searching app"
           puts  "-------------------------------------------------------------------"
-
     end
 
 
     def get_user_name
 
-        puts "Please enter your name"
+        puts "Please enter your name: "
 
         puts "-------------------------------------------------------------------"
 
@@ -26,7 +24,7 @@
 
 
     def get_location
-      puts "Please enter your city"
+      puts "Please enter your city: "
       puts "-------------------------------------------------------------------"
       location = gets.chomp.downcase
       puts "-------------------------------------------------------------------"
@@ -42,10 +40,7 @@
           counter +=1
         end
         puts "*****************************************************************"
-
         puts "Select the number of the event you'd like to attend: "
-
         selection = gets.chomp.to_i-1
-
         puts "Congratulations, you're going to #{events[selection]}"
     end
