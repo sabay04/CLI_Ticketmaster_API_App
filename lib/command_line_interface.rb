@@ -8,15 +8,10 @@
 
 
     def get_user_name
-
         puts "Please enter your name: "
-
         puts "-------------------------------------------------------------------"
-
         name = gets.chomp.downcase
-
         # puts "Hi #{name.capitalize} nice to meet you"
-
         puts "-------------------------------------------------------------------"
 
         name
@@ -32,6 +27,9 @@
     end
 
     def select_event_from_list(events)
+      if events.length == 0
+        puts "city not found, please try again"
+      else
       counter = 1
       puts "Here's a list of the 10 most popular events in your location"
       puts "*******************************************************************"
@@ -43,4 +41,6 @@
         puts "Select the number of the event you'd like to attend: "
         selection = gets.chomp.to_i-1
         puts "Congratulations, you're going to #{events[selection]}"
+        events[selection]
+      end
     end

@@ -17,5 +17,5 @@ user = User.create_user(username)
 city = get_location
 events = get_event_from_api(city)
 selected_event = select_event_from_list(events)
-create_new_event_ticket(selected_event)
+user.create_new_event_ticket(selected_event)
 user.view_saved_events
