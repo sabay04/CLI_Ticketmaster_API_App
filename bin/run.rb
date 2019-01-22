@@ -1,16 +1,15 @@
- require_relative '../config/environment'
+ # require_relative '../config/environment'
 #!/usr/bin/env ruby
-# require_all 'app'
+require_all 'app'
 require_relative '../lib/api_communicator.rb'
 require_relative '../lib/command_line_interface.rb'
 
-
-require_relative '../app/models/user.rb'
+# require_relative '../app/models/ticket.rb'
 
 
 
 welcome
 username = get_user_name
-user = User.create_user(username)
+user = create_user(username)
 city = get_location
 get_event_from_api(city)
