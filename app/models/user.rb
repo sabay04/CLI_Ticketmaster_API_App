@@ -15,6 +15,18 @@ class User < ActiveRecord::Base
 
   end
 
+  # def create_new_event_ticket(event_id)
+  #
+  #   Ticket.create(self.id,event_id)
+  #
+  # end
+  #
+  # def select_user_wants_to_attend
+  #
+  #
+  #
+  # end
+
   def view_saved_events
     #either find a list of instances saved events
 
