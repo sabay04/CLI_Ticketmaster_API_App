@@ -27,20 +27,18 @@
     end
 
     def select_event_from_list(events)
-      if events.length == 0
-        puts "city not found, please try again"
-      else
+      events = events.map{|event| event.values.join(" -- ")}
+      events = events[0..19]
       counter = 1
       puts "Here's a list of the 10 most popular events in your location"
       puts "*******************************************************************"
-        events.each do |event|
+        events.map do |event|
           puts "#{counter}.  #{event}"
           counter +=1
-        end
+          end
         puts "*****************************************************************"
         puts "Select the number of the event you'd like to attend: "
         selection = gets.chomp.to_i-1
         puts "Congratulations, you're going to #{events[selection]}"
         events[selection]
-      end
     end
