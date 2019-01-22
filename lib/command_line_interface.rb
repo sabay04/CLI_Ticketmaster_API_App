@@ -26,12 +26,13 @@
 
 
     def get_location
-
       puts "Please enter your city"
       puts "-------------------------------------------------------------------"
       location = gets.chomp.downcase
       puts "-------------------------------------------------------------------"
-
       location
-
     end
+
+    #####################this is not the master branch
+
+    
