@@ -16,6 +16,6 @@ def get_event_from_api(location)
           "#{event['name']} - #{event['dates']['start']['localDate']} - #{event['_embedded']['venues'][0]['name']}"
       end
       puts event_array[0..9]
-    end
+end
 
 # get_event_from_api

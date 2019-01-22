@@ -17,7 +17,7 @@
 
         name = gets.chomp.downcase
 
-        puts "Hi #{name.capitalize} nice to meet you"
+        # puts "Hi #{name.capitalize} nice to meet you"
 
         puts "-------------------------------------------------------------------"
 
