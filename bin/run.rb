@@ -1,6 +1,10 @@
 # require_relative '../config/environment'
-require_relative '../lib/api_comminicator.rb'
+#!/usr/bin/env ruby
+require_relative '../lib/api_communicator.rb'
+require_relative '../lib/command_line_interface.rb'
 
 
 welcome
-get_city_from_user
+username = get_user_name
+city = get_location
+get_event_from_api(city)
