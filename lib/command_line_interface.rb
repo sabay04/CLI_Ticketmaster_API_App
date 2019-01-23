@@ -94,4 +94,8 @@ require 'tty-prompt'
 
           end
        end
+
+      def search_filter
+        
+      end
     end
