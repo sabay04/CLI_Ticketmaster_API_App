@@ -1,9 +1,9 @@
 require 'tty-prompt'
 require 'pry'
 
-      def user
-        @user
-      end
+  def user
+    @user
+  end
 
 
     def welcome
@@ -11,32 +11,6 @@ require 'pry'
             puts "Welcome to Sounds Good! The world's ONLY concert searching app"
           puts  "-------------------------------------------------------------------"
     end
-
-    def log_in
-      username = get_user_name
-      @user = User.create_user(username)
-    end
-
-    def sign_up
-
-          username = get_user_name
-
-          if User.find_by(name: username)
-
-
-              puts "Sorry this #{username.capitalize} has been taken. Please try again."
-
-               sign_up
-
-          else
-
-              @user = User.create(name: username)
-              puts "Welcome #{username.capitalize}, thank you for signing up to Sounds Good."
-          end
-
-          @user
-    end
-
 
     def get_user_name
         puts "Please enter your name: "
@@ -48,6 +22,22 @@ require 'pry'
         name
     end
 
+    def log_in #if user already has a login otherwise it will send them to sign up
+      username = get_user_name
+      @user = User.create_user(username)
+    end
+
+    def sign_up  #first check if name entered is in users. if it is  then ask for another name if it isnt then save to users
+          username = get_user_name
+          if User.find_by(name: username)
+              puts "Sorry this #{username.capitalize} has been taken. Please try again."
+              sign_up
+          else
+              @user = User.create(name: username)
+              puts "Welcome #{username.capitalize}, thank you for signing up to Sounds Good."
+          end
+        @user
+    end
 
     def sign_in_welcome_page
 
@@ -56,14 +46,12 @@ require 'pry'
 
       choices = ["Log in", "Sign up"].sort
       selection = prompt.select("Hello:", choices)
-
-      if selection ==  "Log in"
-        log_in
-      elsif selection == "Sign up"
-        sign_up
-      end
+        if selection ==  "Log in"
+          log_in
+        elsif selection == "Sign up"
+          sign_up
+        end
     end
-
 
 
     def get_location
@@ -82,10 +70,13 @@ require 'pry'
       # puts "*******************************************************************"
         choices = []
 
-          events.map do |event|
-          choices << "#{event}"
-          end
+
+          events.map { |event| choices << "#{event}" }
           choices << "Back to main menu..."
+
+
+
+
 
         puts "*****************************************************************"
 
@@ -98,21 +89,20 @@ require 'pry'
       end
     end
 
-    def menu_flow
-      # sign_in
-      main_menu
-    end
+    # def menu_flow
+    #   # sign_in
+    #   main_menu
+    # end
 
 
 
     def main_menu
-      # username = get_user_name
-      # user = User.create_user(username)
+
 
         prompt = TTY::Prompt.new
         selection = nil
         until selection == "Exit Program"
-          #add "Switch city" "Filter search" "sign out" 
+          #add "Switch city" "Filter search" "sign out"
           choice = ["Select from list of popular events in your area", "View your saved events", "Exit Program"]
           selection = prompt.select("Please select from the menu:", choice)
 
