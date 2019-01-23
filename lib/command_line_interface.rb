@@ -71,6 +71,7 @@ require 'pry'
       choices = ["London", "Dublin", "Manchester", "New York"].sort
       @city = prompt.select("Please select the city you'd like to search:", choices)
       puts "-------------------------------------------------------------------"
+      get_event_from_api(@city)
       @city
     end
 
@@ -112,7 +113,7 @@ require 'pry'
         prompt = TTY::Prompt.new
         selection = nil
         until selection == "Exit Program"
-          #add "Switch city" "Filter search" "sign out" 
+          #add "Switch city" "Filter search" "sign out"
           choice = ["Select from list of popular events in your area", "View your saved events", "Exit Program"]
           selection = prompt.select("Please select from the menu:", choice)
 
@@ -123,8 +124,7 @@ require 'pry'
 
           when "Select from list of popular events in your area"
 
-            events = get_event_from_api(@city)
-            selected_event = select_event_from_list(events)
+            selected_event = select_event_from_list(@event_array)
               if selected_event == nil
                 main_menu
               else
