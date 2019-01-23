@@ -105,15 +105,19 @@ require 'pry'
 
             (User.all - [@user]).select do |other_user|
               if !(other_user.events & @user.events).empty?
-                puts "#{other_user.name.capitalize} will also be attending."
-                puts "---------------------------"
+
+                @user.events.each do |current_user_event|
+                  also_attending = other_user.events.select {|other_user_event| current_user_event == other_user_event}
+
+                  also_attending.each do |other_event|
+                    puts "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
+                    puts "---------------------------"
+                  end
+                
+                end
               end
 
             end
-
-            # User.find_by(User.events: @user.events)
-            # logic
-            # select * from users Where user.events == currentuser.events
 
           elsif selection == "Main menu"
 
