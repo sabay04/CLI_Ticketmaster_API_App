@@ -1,4 +1,5 @@
 require 'tty-prompt'
+require 'pry'
 
       def user
         @user
@@ -9,6 +10,31 @@ require 'tty-prompt'
           system("clear")
             puts "Welcome to Sounds Good! The world's ONLY concert searching app"
           puts  "-------------------------------------------------------------------"
+    end
+
+    def log_in
+      username = get_user_name
+      @user = User.create_user(username)
+    end
+
+    def sign_up
+
+          username = get_user_name
+
+          if User.find_by(name: username)
+
+
+              puts "Sorry this #{username.capitalize} has been taken. Please try again."
+
+               sign_up
+
+          else
+
+              @user = User.create(name: username)
+              puts "Welcome #{username.capitalize}, thank you for signing up to Sounds Good."
+          end
+
+          @user
     end
 
 
@@ -22,10 +48,20 @@ require 'tty-prompt'
         name
     end
 
-    def sign_in
-        username = get_user_name
-        @user = User.create_user(username)
-        binding.pry
+
+    def sign_in_welcome_page
+
+      prompt = TTY::Prompt.new
+      selection = nil
+
+      choices = ["Log in", "Sign up"].sort
+      selection = prompt.select("Hello:", choices)
+
+      if selection ==  "Log in"
+        log_in
+      elsif selection == "Sign up"
+        sign_up
+      end
     end
 
 
@@ -45,10 +81,15 @@ require 'tty-prompt'
       # puts "Here's a list of the 10 most popular events in your location"
       # puts "*******************************************************************"
         choices = []
+
           events.map do |event|
           choices << "#{event}"
           end
           choices << "Back to main menu..."
+
+          events.map { |event| choices << "#{event}" }
+
+
         puts "*****************************************************************"
 
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
@@ -61,9 +102,10 @@ require 'tty-prompt'
     end
 
     def menu_flow
-      sign_in
+      # sign_in
       main_menu
     end
+
 
 
     def main_menu
