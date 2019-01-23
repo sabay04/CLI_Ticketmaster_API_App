@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
 
   def view_saved_events
     #either find a list of instances saved events
-    system("clear")
     puts "Your current events are: "
     self.events.each do |event|
 

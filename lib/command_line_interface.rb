@@ -164,7 +164,7 @@ require 'pry'
         selection = nil
         until selection == "Exit Program"
           #add "Switch city" "Filter search" "sign out"
-          choice = ["Select from list of popular events in your area", "View your saved events", "Exit Program"]
+          choice = ["Select from list of popular events in your area", "Search events in your area by artist, date or venue", "View your saved events", "Exit Program"]
           selection = prompt.select("Please select from the menu:", choice)
 
           case selection
