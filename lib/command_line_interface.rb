@@ -45,7 +45,7 @@ require 'pry'
       selection = nil
 
       choices = ["Log in", "Sign up"].sort
-      selection = prompt.select("Hello:", choices)
+      selection = prompt.select("Hello,Please pick and option:", choices)
         if selection ==  "Log in"
           log_in
         elsif selection == "Sign up"
@@ -76,8 +76,6 @@ require 'pry'
 
 
 
-
-
         puts "*****************************************************************"
 
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
@@ -89,11 +87,30 @@ require 'pry'
       end
     end
 
-    # def menu_flow
-    #   # sign_in
-    #   main_menu
-    # end
+      def saved_events_menu
 
+        prompt = TTY::Prompt.new
+        selection = nil
+
+        choices = ["View saved events", "Other users attending your events","Main menu"]
+        selection = prompt.select("Choose an option below:", choices)
+
+          if selection ==  "View saved events"
+
+              @user.view_saved_events
+
+          elsif selection == "Other users attending your events"
+            puts "**********"
+            puts "other user events"
+
+          elsif selection == "Main menu"
+
+              main_menu
+
+          end
+
+
+      end
 
 
     def main_menu
@@ -103,7 +120,7 @@ require 'pry'
         selection = nil
         until selection == "Exit Program"
           #add "Switch city" "Filter search" "sign out"
-          choice = ["Select from list of popular events in your area", "View your saved events", "Exit Program"]
+          choice = ["Select from list of popular events in your area", "Saved events","Change city", "Sign out", "Exit Program"]
           selection = prompt.select("Please select from the menu:", choice)
 
           case selection
@@ -121,8 +138,20 @@ require 'pry'
             @user.create_new_event_ticket(selected_event)
               end
 
-          when "View your saved events"
-            @user.view_saved_events
+          when "Saved events"
+
+            saved_events_menu
+
+          when "Change city"
+            
+              get_location
+
+          when "Sign out"
+            puts ""
+            puts "Goodbye #{@user.name.capitalize}. You are now signed out."
+            puts "--------------------------------------------"
+            puts ""
+            sign_in_welcome_page
 
           when "Exit Program"
             puts "Goodbye!"
