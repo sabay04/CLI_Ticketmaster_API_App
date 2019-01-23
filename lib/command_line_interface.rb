@@ -69,9 +69,9 @@ require 'pry'
     def get_location
       prompt = TTY::Prompt.new
       choices = ["London", "Dublin", "Manchester", "New York"].sort
-      city_name = prompt.select("Please select the city you'd like to search:", choices)
+      @city = prompt.select("Please select the city you'd like to search:", choices)
       puts "-------------------------------------------------------------------"
-      city_name
+      @city
     end
 
     def select_event_from_list(events)
@@ -86,9 +86,6 @@ require 'pry'
           choices << "#{event}"
           end
           choices << "Back to main menu..."
-
-          events.map { |event| choices << "#{event}" }
-
 
         puts "*****************************************************************"
 
@@ -115,16 +112,18 @@ require 'pry'
         prompt = TTY::Prompt.new
         selection = nil
         until selection == "Exit Program"
-          choice = ["Select your city", "Select from list of popular events in your area", "View your saved events", "Exit Program"]
+          #add "Switch city" "Filter search" "sign out" 
+          choice = ["Select from list of popular events in your area", "View your saved events", "Exit Program"]
           selection = prompt.select("Please select from the menu:", choice)
 
           case selection
 
-          when "Select your city"
-            city = get_location
+          # when "Select your city"
+          #   city = get_location
 
           when "Select from list of popular events in your area"
-            events = get_event_from_api(city)
+
+            events = get_event_from_api(@city)
             selected_event = select_event_from_list(events)
               if selected_event == nil
                 main_menu
