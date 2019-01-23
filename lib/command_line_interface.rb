@@ -101,7 +101,19 @@ require 'pry'
 
           elsif selection == "Other users attending your events"
             puts "**********"
-            puts "other user events"
+            puts "other user events:"
+
+            (User.all - [@user]).select do |other_user|
+              if !(other_user.events & @user.events).empty?
+                puts "#{other_user.name.capitalize} will also be attending."
+                puts "---------------------------"
+              end
+
+            end
+
+            # User.find_by(User.events: @user.events)
+            # logic
+            # select * from users Where user.events == currentuser.events
 
           elsif selection == "Main menu"
 
@@ -143,7 +155,7 @@ require 'pry'
             saved_events_menu
 
           when "Change city"
-            
+
               get_location
 
           when "Sign out"
