@@ -12,12 +12,7 @@ require_relative '../app/models/Events.rb'
 
 
 welcome
-sign_in
-# username = get_user_name
-# user = User.create_user(username)
-# city = get_location
-# events = get_event_from_api(city)
-# selected_event = select_event_from_list(events)
-# user.create_new_event_ticket(selected_event)
-# user.view_saved_events
+
+sign_in_welcome_page
+
 main_menu
