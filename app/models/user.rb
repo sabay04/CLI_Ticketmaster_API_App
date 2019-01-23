@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
   end
 
   def create_new_event_ticket(string)
-
     event_string = string.split(" -- ")
     name =  event_string[0]
     date =  event_string[1]
@@ -28,6 +27,7 @@ class User < ActiveRecord::Base
 
   def view_saved_events
     #either find a list of instances saved events
+    system("clear")
     puts "Your current events are: "
     self.events.each do |event|
 

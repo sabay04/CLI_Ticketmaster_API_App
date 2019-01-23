@@ -1,5 +1,10 @@
 require 'tty-prompt'
 
+      def user
+        @user
+      end
+
+
     def welcome
           system("clear")
             puts "Welcome to Sounds Good! The world's ONLY concert searching app"
@@ -16,6 +21,13 @@ require 'tty-prompt'
 
         name
     end
+
+    def sign_in
+        username = get_user_name
+        @user = User.create_user(username)
+        binding.pry
+    end
+
 
 
     def get_location
@@ -35,38 +47,52 @@ require 'tty-prompt'
         choices = []
           events.map do |event|
           choices << "#{event}"
-
           end
+          choices << "Back to main menu..."
         puts "*****************************************************************"
 
-        prompt.select("Select the number of the event you'd like to attend: ", choices, per_page: 20)
+        choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
+          if choice == "Back to main menu..."
+            main_menu
+            return nil
+          else
+            choice
+      end
+    end
 
-        # selection = gets.chomp.to_i-1
-        # puts "Congratulations, you're going to #{events[selection]}"
+    def menu_flow
+      sign_in
+      main_menu
     end
 
 
     def main_menu
+      # username = get_user_name
+      # user = User.create_user(username)
+
         prompt = TTY::Prompt.new
         selection = nil
-        until selection = 6
-          choice = ["Select your city", "View your saved events",  ]
+        until selection == "Exit Program"
+          choice = ["Select your city", "Select from list of popular events in your area", "View your saved events", "Exit Program"]
+          selection = prompt.select("Please select from the menu:", choice)
 
-      case selection
+          case selection
 
-      when 12
-        get_location
+          when "Select your city"
+            city = get_location
 
-      when 2
+          when "Select from list of popular events in your area"
+            events = get_event_from_api(city)
+            selected_event = select_event_from_list(events)
 
+            @user.create_new_event_ticket(selected_event)
 
+          when "View your saved events"
+            @user.view_saved_events
 
+          when "Exit Program"
+            puts "Goodbye!"
 
-
-
-     end
-
-   end
-
-
+          end
+       end
     end
