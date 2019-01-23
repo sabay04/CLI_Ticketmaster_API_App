@@ -12,7 +12,6 @@ require_relative '../app/models/Events.rb'
 
 
 welcome
-
 sign_in_welcome_page
 
 main_menu
