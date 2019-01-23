@@ -35,13 +35,5 @@ class User < ActiveRecord::Base
         puts "-------------------"
     end
     #or if none found prompts to search.
-
   end
-
-
-
-
-
-
-
 end
