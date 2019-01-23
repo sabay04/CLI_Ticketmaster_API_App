@@ -84,7 +84,6 @@ require 'tty-prompt'
           when "Select from list of popular events in your area"
             events = get_event_from_api(city)
             selected_event = select_event_from_list(events)
-
             @user.create_new_event_ticket(selected_event)
 
           when "View your saved events"

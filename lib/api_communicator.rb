@@ -29,7 +29,3 @@ def get_event_from_api(location)
       end
         event_array
 end
-
-
-
-# get_event_from_api
