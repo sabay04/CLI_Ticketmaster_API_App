@@ -3,6 +3,7 @@ require 'json'
 require 'pry'
 
 
+
 def get_event_from_api(location)
   event_array = []
   response_string = RestClient.get("https://app.ticketmaster.com/discovery/v2/events.json?apikey=pQAHDQNADv3ILD6AiszHahtWnN3y3wN7&city=#{location}&size=100&classificationName=music")
@@ -16,11 +17,9 @@ def get_event_from_api(location)
         end
       end
 
-
      #  event_array.uniq do |event|
      # event[:name] + event[:venue]
      # end
-
       i = 1
       while i < event_array.length
         if event_array[i][:date] == event_array[i-1][:date] && event_array[i][:venue] == event_array[i-1][:venue]

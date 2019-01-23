@@ -1,4 +1,4 @@
-
+require 'tty-prompt'
 
     def welcome
           system("clear")
@@ -19,26 +19,54 @@
 
 
     def get_location
-      puts "Please enter your city: "
+      prompt = TTY::Prompt.new
+      choices = ["London", "Dublin", "Manchester", "New York"].sort
+      city_name = prompt.select("Please select the city you'd like to search:", choices)
       puts "-------------------------------------------------------------------"
-      location = gets.chomp.downcase
-      puts "-------------------------------------------------------------------"
-      location
+      city_name
     end
 
     def select_event_from_list(events)
+      prompt = TTY::Prompt.new
       events = events.map{|event| event.values.join(" -- ")}
       events = events[0..19]
-      counter = 1
-      puts "Here's a list of the 10 most popular events in your location"
-      puts "*******************************************************************"
-        events.map do |event|
-          puts "#{counter}.  #{event}"
-          counter +=1
+      # puts "Here's a list of the 10 most popular events in your location"
+      # puts "*******************************************************************"
+        choices = []
+          events.map do |event|
+          choices << "#{event}"
+
           end
         puts "*****************************************************************"
-        puts "Select the number of the event you'd like to attend: "
-        selection = gets.chomp.to_i-1
-        puts "Congratulations, you're going to #{events[selection]}"
-        events[selection]
+
+        prompt.select("Select the number of the event you'd like to attend: ", choices, per_page: 20)
+
+        # selection = gets.chomp.to_i-1
+        # puts "Congratulations, you're going to #{events[selection]}"
+    end
+
+
+    def main_menu
+        prompt = TTY::Prompt.new
+        selection = nil
+        until selection = 6
+          choice = ["Select your city", "View your saved events",  ]
+
+      case selection
+
+      when 12
+        get_location
+
+      when 2
+
+
+
+
+
+
+     end
+
+   end
+
+
     end
