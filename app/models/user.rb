@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   def self.create_user(name)
     user = User.find_by(name: name)
     if user
-      puts "Welcome back #{name}"
+      puts "Welcome back #{name.capitalize}"
       user
     else
       puts 'User not found, creating new user!'

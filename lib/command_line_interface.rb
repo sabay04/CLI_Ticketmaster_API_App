@@ -25,7 +25,6 @@ require 'tty-prompt'
     def sign_in
         username = get_user_name
         @user = User.create_user(username)
-        binding.pry
     end
 
 
