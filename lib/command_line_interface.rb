@@ -126,13 +126,18 @@ require 'pry'
           when "Select from list of popular events in your area"
             events = get_event_from_api(city)
             selected_event = select_event_from_list(events)
+              if selected_event == nil
+                main_menu
+              else
             @user.create_new_event_ticket(selected_event)
+              end
 
           when "View your saved events"
             @user.view_saved_events
 
           when "Exit Program"
             puts "Goodbye!"
+             exit
 
           end
        end
