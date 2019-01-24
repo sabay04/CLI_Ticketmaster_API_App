@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
     venue =  event_string[2]
 
     new_event = Event.create(event_name: name, date: date, venue: venue)
+    new_event = Event.find_or_create_by(event_name: name, date: date, venue: venue)
     Ticket.create(user_id: self.id, event_id: new_event.id)
   end
 

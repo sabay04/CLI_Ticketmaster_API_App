@@ -45,6 +45,7 @@ require 'pry'
 
       choices = ["Log in", "Sign up"].sort
       selection = prompt.select("Hello:", choices)
+      selection = prompt.select("Hello,Please pick and option:", choices)
         if selection ==  "Log in"
           log_in
         elsif selection == "Sign up"
@@ -82,6 +83,10 @@ require 'pry'
 
 
 
+
+
+
+
         puts "*****************************************************************"
 
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
@@ -94,10 +99,43 @@ require 'pry'
       end
     end
 
-    # def menu_flow
-    #   # sign_in
-    #   main_menu
-    # end
+      def saved_events_menu
+
+        prompt = TTY::Prompt.new
+        selection = nil
+
+        choices = ["View saved events", "Other users attending your events","Main menu"]
+        selection = prompt.select("Choose an option below:", choices)
+
+          if selection ==  "View saved events"
+
+              @user.view_saved_events
+
+          elsif selection == "Other users attending your events"
+            puts "**********"
+            puts "other user events:"
+
+            (User.all - [@user]).select do |other_user|
+              if !(other_user.events & @user.events).empty?
+
+                @user.events.each do |current_user_event|
+                  also_attending = other_user.events.select {|other_user_event| current_user_event == other_user_event}
+
+                  also_attending.each do |other_event|
+                    puts "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
+                    puts "---------------------------"
+                  end
+
+                end
+              end
+
+            end
+
+          elsif selection == "Main menu"
+
+              main_menu
+
+          end
 
     def filter_menu(hash)
       # binding.pry
@@ -156,6 +194,8 @@ require 'pry'
     end
 
 
+      end
+
 
     def main_menu
 
@@ -164,7 +204,9 @@ require 'pry'
         selection = nil
         until selection == "Exit Program"
           #add "Switch city" "Filter search" "sign out"
-          choice = ["Select from list of popular events in your area", "Search events in your area by artist, date or venue", "View your saved events", "Exit Program"]
+
+          choice = ["Select from list of popular events in your area", "Search events in your area by artist, date or venue", "Saved events", "Change city", "Sign out", "Exit Program"]
+
           selection = prompt.select("Please select from the menu:", choice)
 
           case selection
@@ -181,11 +223,27 @@ require 'pry'
             @user.create_new_event_ticket(selected_event)
               end
 
-          when "View your saved events"
-            @user.view_saved_events
-
           when "Search events in your area by artist, date or venue"
             filter_menu(@event_array)
+              filter_menu(@event_array)
+
+
+          when "Saved events"
+
+            saved_events_menu
+
+          when "Change city"
+
+              get_location
+
+          when "Sign out"
+            puts ""
+            puts "Goodbye #{@user.name.capitalize}. You are now signed out."
+            puts "--------------------------------------------"
+            puts ""
+            sign_in_welcome_page
+            get_location
+
 
           when "Exit Program"
             puts "Goodbye!"
@@ -193,4 +251,5 @@ require 'pry'
 
           end
        end
+
     end
