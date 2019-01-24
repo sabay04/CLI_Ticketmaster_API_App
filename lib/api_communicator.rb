@@ -4,6 +4,7 @@ require 'pry'
 
 
 
+
 def get_event_from_api(location)
   @event_array = []
   response_string = RestClient.get("https://app.ticketmaster.com/discovery/v2/events.json?apikey=pQAHDQNADv3ILD6AiszHahtWnN3y3wN7&city=#{location}&size=200&classificationName=music")

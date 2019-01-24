@@ -90,11 +90,8 @@ PLATFORMS
 
 DEPENDENCIES
   artii
-<<<<<<< HEAD
   lolcat
-=======
   progressbar
->>>>>>> e842bbd47f19775735e3123ab7894b9b2a546ae1
   pry
   require_all
   rest-client
