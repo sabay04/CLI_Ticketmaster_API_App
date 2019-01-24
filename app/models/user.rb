@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   def create_new_event_ticket(string)
     event_string = string.split(" -- ")
-    name =  event_string[0]
+    name =  event_string[0].delete!("•")
     date =  event_string[1]
     venue =  event_string[2]
 
