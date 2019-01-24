@@ -1,5 +1,7 @@
 require 'tty-prompt'
 require 'pry'
+# require 'progressbar'
+require 'artii'
 
   def user
     @user
@@ -44,7 +46,6 @@ require 'pry'
       selection = nil
 
       choices = ["Log in", "Sign up"].sort
-      selection = prompt.select("Hello:", choices)
       selection = prompt.select("Hello,Please pick and option:", choices)
         if selection ==  "Log in"
           log_in
@@ -59,7 +60,9 @@ require 'pry'
       choices = ["London", "Dublin", "Manchester", "New York"].sort
       @city = prompt.select("Please select the city you'd like to search:", choices)
       puts "-------------------------------------------------------------------"
+        progressbar = ProgressBar.create(title: "Switching to #{@city}" )
       get_event_from_api(@city)
+      30.times { progressbar.increment; sleep 0.03}
       @city
     end
 
@@ -251,5 +254,4 @@ require 'pry'
 
           end
        end
-
     end
