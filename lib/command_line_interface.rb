@@ -1,7 +1,12 @@
 require 'tty-prompt'
 require 'pry'
+<<<<<<< HEAD
 require 'artii'
 require 'lolcat'
+=======
+# require 'progressbar'
+require 'artii'
+>>>>>>> e842bbd47f19775735e3123ab7894b9b2a546ae1
 
   def user
     @user
@@ -61,7 +66,9 @@ require 'lolcat'
       choices = ["London", "Dublin", "Manchester", "New York"].sort
       @city = prompt.select("Please select the city you'd like to search:", choices)
       puts "-------------------------------------------------------------------"
+        progressbar = ProgressBar.create(title: "Switching to #{@city}" )
       get_event_from_api(@city)
+      30.times { progressbar.increment; sleep 0.03}
       @city
     end
 
@@ -77,11 +84,8 @@ require 'lolcat'
       # puts "*******************************************************************"
         choices = []
 
-
           events.map { |event| choices << "#{event}" }
           choices << "Back to main menu..."
-
-
 
         puts "*****************************************************************"
 
@@ -221,6 +225,7 @@ require 'lolcat'
               end
 
           when "Search events in your area by artist, date or venue"
+            filter_menu(@event_array)
               filter_menu(@event_array)
 
 
@@ -247,5 +252,4 @@ require 'lolcat'
 
           end
        end
-
     end
