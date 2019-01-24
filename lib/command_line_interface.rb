@@ -77,7 +77,7 @@ require "tty-spinner"
       prompt = TTY::Prompt.new(active_color: :cyan)
 
 
-      choices = ["London", "Dublin", "Manchester", "New York"].sort
+      choices = ["London", "Dublin", "Manchester", "New York", "Miami","Los Angeles","Glasgow","Liverpool","Seattle","Sydney","Melbourne","Denver","Chicago","Toronto","Vancouver"].sort
       puts ""
       @city = prompt.select("Please select the city you'd like to search:", choices)
       puts ""
@@ -183,7 +183,7 @@ require "tty-spinner"
              end
 
       when 2
-        puts "Please enter the date in YYYY-MM-DD format"
+        puts "Please enter the date in DD-MM-YYYY format"
         matching_events = []
          date = gets.chomp
          hash.select do |event|
