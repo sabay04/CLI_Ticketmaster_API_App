@@ -9,7 +9,7 @@ require 'artii'
 
     def welcome
           system("clear")
-            puts "Welcome to Sounds Good! The world's ONLY concert searching app"
+            puts "Welcome to Sounds Good!® The world's ONLY concert searching app"
           puts  "-------------------------------------------------------------------"
     end
 
