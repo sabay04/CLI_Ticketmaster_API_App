@@ -195,6 +195,7 @@ require 'pry'
 
         prompt = TTY::Prompt.new
         selection = nil
+        selected_event = nil
         until selection == "Exit Program"
           #add "Switch city" "Filter search" "sign out"
 
@@ -213,7 +214,7 @@ require 'pry'
               if selected_event == nil
                 main_menu
               else
-            @user.create_new_event_ticket(selected_event)
+                @user.create_new_event_ticket(selected_event)
               end
 
           when "Search events in your area by artist, date or venue"
