@@ -1,7 +1,7 @@
 require 'tty-prompt'
 require 'pry'
-# require 'progressbar'
 require 'artii'
+require 'lolcat'
 
   def user
     @user
@@ -9,7 +9,8 @@ require 'artii'
 
     def welcome
           system("clear")
-            puts "Welcome to Sounds Good!® The world's ONLY concert searching app"
+              system ("artii 'Welcome' | lolcat -a -d 5")
+            # puts "Welcome to Sounds Good! The world's ONLY concert searching app"
           puts  "-------------------------------------------------------------------"
     end
 
@@ -196,6 +197,7 @@ require 'artii'
 
         prompt = TTY::Prompt.new
         selection = nil
+        selected_event = nil
         until selection == "Exit Program"
           #add "Switch city" "Filter search" "sign out"
 
@@ -214,7 +216,7 @@ require 'artii'
               if selected_event == nil
                 main_menu
               else
-            @user.create_new_event_ticket(selected_event)
+                @user.create_new_event_ticket(selected_event)
               end
 
           when "Search events in your area by artist, date or venue"
