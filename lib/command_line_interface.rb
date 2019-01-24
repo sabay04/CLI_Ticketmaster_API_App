@@ -1,5 +1,7 @@
 require 'tty-prompt'
 require 'pry'
+require 'artii'
+require 'lolcat'
 
   def user
     @user
@@ -7,7 +9,8 @@ require 'pry'
 
     def welcome
           system("clear")
-            puts "Welcome to Sounds Good! The world's ONLY concert searching app"
+              system ("artii 'Welcome' | lolcat -a -d 5")
+            # puts "Welcome to Sounds Good! The world's ONLY concert searching app"
           puts  "-------------------------------------------------------------------"
     end
 
