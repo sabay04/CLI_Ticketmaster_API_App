@@ -129,6 +129,7 @@ require 'tty-font'
         selection = nil
 
         choices = {"•View saved events": 1, "•Other users attending your events": 2 ,"•Main menu": 3}
+        puts ""
         selection = prompt.select("Choose an option below:", choices)
 
           if selection ==  1
@@ -162,7 +163,7 @@ require 'tty-font'
               end
 
             end
-              binding.pry
+
               puts table.render(:unicode)
 
 
