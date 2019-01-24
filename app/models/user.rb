@@ -34,7 +34,6 @@ class User < ActiveRecord::Base
     #either find a list of instances saved events
     table = TTY::Table.new header: ['EVENTS','VENUES','DATES']
     # table << ["PINK","27th","02"]
-
     puts ""
     puts "Your upcoming events are: "
     puts ""
@@ -46,7 +45,6 @@ class User < ActiveRecord::Base
 
         # puts table.render(:unicode, resize: true)
         # puts "-------------------"
-
     end
     puts table.render(:unicode)
     #or if none found prompts to search.
