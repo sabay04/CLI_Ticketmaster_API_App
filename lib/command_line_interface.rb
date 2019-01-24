@@ -4,6 +4,8 @@ require 'artii'
 require 'lolcat'
 require 'progressbar'
 require "tty-spinner"
+require 'tty-font'
+
 
 
 
@@ -107,12 +109,12 @@ require "tty-spinner"
         choices = []
 
           events.map { |event| choices << "•#{event}" }
-          choices << "Back to main menu..."
+          choices << "•Back to main menu..."
 
-        puts "*****************************************************************"
+        puts "-------------------------------------------------------------------"
         puts ""
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
-          if choice == "Back to main menu..."
+          if choice == "•Back to main menu..."
             main_menu
             return nil
           else
@@ -134,7 +136,7 @@ require "tty-spinner"
               @user.view_saved_events
 
           elsif selection == 2
-            puts "**********"
+            puts "----------"
             puts "other user events:"
 
             (User.all - [@user]).select do |other_user|
@@ -164,11 +166,13 @@ require "tty-spinner"
       # binding.pry
       prompt = TTY::Prompt.new(active_color: :cyan)
       choice = {"•By artist": 1, "•By date": 2 , "•By venue": 3, "•Main menu": 4}
+      puts ""
       selection = prompt.select("Choose how you would like to filter", choice)
 
       case selection
 
       when 1
+        puts ""
         puts "Please enter the name of the artist:"
           matching_events = []
           artist = gets.chomp
@@ -183,6 +187,7 @@ require "tty-spinner"
              end
 
       when 2
+        puts ""
         puts "Please enter the date in DD-MM-YYYY format"
         matching_events = []
          date = gets.chomp
@@ -198,6 +203,7 @@ require "tty-spinner"
           end
 
       when 3
+        puts ""
         puts "Please enter the name of the venue"
         matching_events = []
           venue = gets.chomp
@@ -244,6 +250,7 @@ require "tty-spinner"
               if selected_event == nil
                 main_menu
               else
+                event_animation(selected_event)
                 @user.create_new_event_ticket(selected_event)
               end
 
@@ -263,8 +270,8 @@ require "tty-spinner"
           when 5
             puts ""
             puts "Goodbye #{@user.name.capitalize}. You are now signed out."
-            puts "--------------------------------------------"
             puts ""
+            puts "--------------------------------------------"
             sign_in_welcome_page
             get_location
 
@@ -275,4 +282,24 @@ require "tty-spinner"
 
           end
        end
+    end
+
+
+    def event_animation(event)
+      font = TTY::Font.new(:standard)
+          event_title = event.split("--")
+          event_name = event_title[0].delete("•")
+          event_name = event_name[0..20]
+        puts ""
+        puts "Congratulations #{@user.name.capitalize} you are attending:"
+
+          if   event_name.length > 20
+            system("artii '#{event_name.upcase} ...' | lolcat -a -d 2")
+          else
+            system("artii '#{event_name.upcase}' | lolcat -a -d 2")
+          end
+        # puts font.write("#{event_name.upcase}",letter_spacing: 2)
+
+        puts "check saved events to view details and your other saved events"
+
     end

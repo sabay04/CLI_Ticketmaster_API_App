@@ -31,7 +31,9 @@ class User < ActiveRecord::Base
 
   def view_saved_events
     #either find a list of instances saved events
+    puts ""
     puts "Your current events are: "
+    puts ""
     self.reload.events.each do |event|
 
         puts "#{event.event_name} - #{event.date} - #{event.venue}"
