@@ -132,7 +132,7 @@ require 'tty-font'
         prompt = TTY::Prompt.new(active_color: :cyan)
         selection = nil
 
-        choices = {"•View saved events": 1, "•Other users attending your events": 2 ,"•Main menu": 3}
+        choices = {"•View saved events": 1, "•Other users attending your events": 2,"•Remove saved events":3 ,"•Main menu": 4}
         puts ""
         selection = prompt.select("Choose an option below:", choices)
 
@@ -168,10 +168,13 @@ require 'tty-font'
 
             end
 
-              puts table.render(:unicode)
-
+            puts table.render(:unicode)
 
           elsif selection == 3
+
+            @user.remove_event
+
+          elsif selection == 4
 
               main_menu
 
@@ -272,7 +275,7 @@ require 'tty-font'
               end
 
           when 2
-            # filter_menu(@event_array)
+
               filter_menu(@event_array)
 
 
