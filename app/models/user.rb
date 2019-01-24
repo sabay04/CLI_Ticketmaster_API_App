@@ -1,4 +1,5 @@
 require 'tty-table'
+require 'tty-prompt'
 class User < ActiveRecord::Base
 
   has_many :tickets
@@ -49,4 +50,46 @@ class User < ActiveRecord::Base
     puts table.render(:unicode)
     #or if none found prompts to search.
   end
+
+
+
+
+  def remove_event
+
+    prompt = TTY::Prompt.new(active_color: :cyan)
+
+    event_choice =[]
+
+
+      self.reload.events.each do  |event_object|
+        # binding.pry
+        event_choice << "#{event_object.event_name} -- #{event_object.date} -- #{event_object.venue}"
+
+      end
+
+       event_choice << "•Main Menu"
+       puts ""
+       selection = prompt.select("Select the event you would like to remove: ", event_choice)
+
+       if selection == "•Main menu..."
+         main_menu
+         # return nil
+       else
+
+
+         event_attribute = selection.split(" -- ")
+         name =  event_attribute[0]
+         date =  event_attribute[1]
+         venue = event_attribute[2]
+
+         # new_event = Event.create(event_name: name, date: date, venue: venue)
+         event = Event.find_by(event_name: name, date: date, venue: venue)
+
+         Ticket.where(user_id: self.id, event_id: event.id).destroy_all
+         puts "" 
+         puts "#{name} has been deleted from your saved events"
+     end
+
+  end
+
 end

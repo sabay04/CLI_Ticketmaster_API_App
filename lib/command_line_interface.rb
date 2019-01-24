@@ -3,6 +3,7 @@ require 'pry'
 require 'artii'
 require 'lolcat'
 require 'progressbar'
+require 'tty-table'
 require "tty-spinner"
 require 'tty-font'
 
@@ -25,7 +26,6 @@ require 'tty-font'
               puts ""
               puts "An app to find events in your area and add them to your diary"
           puts  "------------------------------------------------------------------- \n"
-
 
     end
 
@@ -128,7 +128,8 @@ require 'tty-font'
         prompt = TTY::Prompt.new(active_color: :cyan)
         selection = nil
 
-        choices = {"•View saved events": 1, "•Other users attending your events": 2 ,"•Main menu": 3}
+        choices = {"•View saved events": 1, "•Other users attending your events": 2,"•Remove saved events":3 ,"•Main menu": 4}
+        puts ""
         selection = prompt.select("Choose an option below:", choices)
 
           if selection ==  1
@@ -162,11 +163,14 @@ require 'tty-font'
               end
 
             end
-              puts table.render(:unicode)
-              binding.pry
 
+            puts table.render(:unicode)
 
           elsif selection == 3
+
+            @user.remove_event
+
+          elsif selection == 4
 
               main_menu
 
@@ -267,7 +271,7 @@ require 'tty-font'
               end
 
           when 2
-            # filter_menu(@event_array)
+
               filter_menu(@event_array)
 
 
