@@ -3,9 +3,7 @@ require 'pry'
 require 'artii'
 require 'lolcat'
 require 'progressbar'
-<<<<<<< HEAD
 require 'tty-table'
-=======
 require "tty-spinner"
 require 'tty-font'
 
@@ -13,7 +11,7 @@ require 'tty-font'
 
 
 
->>>>>>> remove-dot-from-attending
+
 
   def user
     @user
@@ -21,11 +19,7 @@ require 'tty-font'
 
     def welcome
           system("clear")
-<<<<<<< HEAD
-              system ("artii 'Welcome' | lolcat -a -d 5")
-            puts "Welcome to Sounds Good! The world's ONLY concert searching app®"
-          puts  "-------------------------------------------------------------------"
-=======
+
               puts "Welcome to \n"
               puts  "--------------------------------------------------------------------- \n"
               system ("artii 'Sounds Good !' | lolcat -a -d 4")
@@ -36,7 +30,7 @@ require 'tty-font'
           puts  "------------------------------------------------------------------- \n"
 
 
->>>>>>> remove-dot-from-attending
+
     end
 
     def get_user_name
@@ -139,6 +133,7 @@ require 'tty-font'
         selection = nil
 
         choices = {"•View saved events": 1, "•Other users attending your events": 2 ,"•Main menu": 3}
+        puts ""
         selection = prompt.select("Choose an option below:", choices)
 
           if selection ==  1
@@ -172,7 +167,7 @@ require 'tty-font'
               end
 
             end
-              binding.pry
+
               puts table.render(:unicode)
 
 
