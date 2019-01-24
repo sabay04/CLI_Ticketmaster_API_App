@@ -1,3 +1,4 @@
+require 'tty-table'
 class User < ActiveRecord::Base
 
   has_many :tickets
@@ -31,15 +32,23 @@ class User < ActiveRecord::Base
 
   def view_saved_events
     #either find a list of instances saved events
+    table = TTY::Table.new header: ['EVENTS','VENUES','DATES']
+    # table << ["PINK","27th","02"]
+
     puts ""
-    puts "Your current events are: "
+    puts "Your upcoming events are: "
     puts ""
     self.reload.events.each do |event|
+        # puts "------------EVENT--------------DATE-------------VENUE---------------"
+        # puts "#{event.event_name} | #{event.date} | #{event.venue}"
+         table << ["#{event.event_name[0..20]}", "#{event.venue[0..20]}", "#{event.date}"]
+         table << ["----------------------","----------------------","----------------"]
 
-        puts "#{event.event_name} - #{event.date} - #{event.venue}"
-        puts "-------------------"
+        # puts table.render(:unicode, resize: true)
+        # puts "-------------------"
 
     end
+    puts table.render(:unicode)
     #or if none found prompts to search.
 
   end

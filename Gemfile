@@ -12,3 +12,4 @@ gem "lolcat"
 gem "progressbar"
 gem "tty-spinner"
 gem "tty-font"
+gem 'tty-table'

@@ -124,7 +124,7 @@ require 'tty-font'
     end
 
       def saved_events_menu
-
+        table = TTY::Table.new header:['NAMES','EVENT']
         prompt = TTY::Prompt.new(active_color: :cyan)
         selection = nil
 
@@ -136,8 +136,9 @@ require 'tty-font'
               @user.view_saved_events
 
           elsif selection == 2
-            puts "----------"
-            puts "other user events:"
+            puts "--------------------------------------------------------------"
+            puts ""
+            puts "other user attending your events:"
 
             (User.all - [@user]).select do |other_user|
               if !(other_user.events & @user.events).empty?
@@ -146,13 +147,24 @@ require 'tty-font'
                   also_attending = other_user.events.select {|other_user_event| current_user_event == other_user_event}
 
                   also_attending.each do |other_event|
-                    puts "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
-                    puts "---------------------------"
+
+                    table << ["#{other_user.name.capitalize}","#{other_event.event_name[0..20]}"]
+                    table << ["----------","--------------------"]
+
+                    # attending = "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
+                    # puts attending
+                    # attending.length.times {print "-"}
+
+
                   end
 
                 end
               end
+
             end
+              binding.pry
+              puts table.render(:unicode)
+
 
           elsif selection == 3
 
