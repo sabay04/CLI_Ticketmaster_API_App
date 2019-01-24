@@ -3,6 +3,7 @@ require 'pry'
 require 'artii'
 require 'lolcat'
 require 'progressbar'
+require 'tty-table'
 
   def user
     @user

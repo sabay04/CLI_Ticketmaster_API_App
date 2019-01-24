@@ -27,16 +27,14 @@ class User < ActiveRecord::Base
     Ticket.create(user_id: self.id, event_id: new_event.id)
   end
 
-  def view_saved_events
-    #either find a list of instances saved events
+  def view_saved_events    #either find a list of instances saved events
     puts "Your current events are: "
     self.reload.events.each do |event|
-
+      table = TTY::Table.new ["Name", "Date", "Venue"], [["#{event.event_name}", "#{event.date}", "#{event.venue}"]]
         puts "#{event.event_name} - #{event.date} - #{event.venue}"
         puts "-------------------"
 
     end
     #or if none found prompts to search.
-    binding.pry 
   end
 end
