@@ -3,7 +3,17 @@ require 'pry'
 require 'artii'
 require 'lolcat'
 require 'progressbar'
+<<<<<<< HEAD
 require 'tty-table'
+=======
+require "tty-spinner"
+require 'tty-font'
+
+
+
+
+
+>>>>>>> remove-dot-from-attending
 
   def user
     @user
@@ -11,12 +21,26 @@ require 'tty-table'
 
     def welcome
           system("clear")
+<<<<<<< HEAD
               system ("artii 'Welcome' | lolcat -a -d 5")
             puts "Welcome to Sounds Good! The world's ONLY concert searching app®"
           puts  "-------------------------------------------------------------------"
+=======
+              puts "Welcome to \n"
+              puts  "--------------------------------------------------------------------- \n"
+              system ("artii 'Sounds Good !' | lolcat -a -d 4")
+              puts  "--------------------------------------------------------------------- \n"
+              puts "The world's ONLY concert searching app®"
+              puts ""
+              puts "An app to find events in your area and add them to your diary"
+          puts  "------------------------------------------------------------------- \n"
+
+
+>>>>>>> remove-dot-from-attending
     end
 
     def get_user_name
+        puts ""
         puts "Please enter your name: "
         puts "-------------------------------------------------------------------"
         name = gets.chomp.downcase
@@ -34,10 +58,12 @@ require 'tty-table'
     def sign_up  #first check if name entered is in users. if it is  then ask for another name if it isnt then save to users
           username = get_user_name
           if User.find_by(name: username)
+              puts ""
               puts "Sorry this #{username.capitalize} has been taken. Please try again."
               sign_up
           else
               @user = User.create(name: username)
+              puts ""
               puts "Welcome #{username.capitalize}, thank you for signing up to Sounds Good."
           end
         @user
@@ -45,49 +71,60 @@ require 'tty-table'
 
     def sign_in_welcome_page
 
-      prompt = TTY::Prompt.new
+      prompt = TTY::Prompt.new(active_color: :cyan)
       selection = nil
 
-      choices = ["Log in", "Sign up"].sort
+      choices = {"•Log in": 1, "•Sign up": 2}
+      puts ""
       selection = prompt.select("Hello,Please pick and option:", choices)
-        if selection ==  "Log in"
+        if selection ==  1
           log_in
-        elsif selection == "Sign up"
+        elsif selection == 2
           sign_up
         end
     end
 
 
     def get_location
-      prompt = TTY::Prompt.new
-      choices = ["London", "Dublin", "Manchester", "New York"].sort
+      prompt = TTY::Prompt.new(active_color: :cyan)
+
+
+      choices = ["London", "Dublin", "Manchester", "New York", "Miami","Los Angeles","Glasgow","Liverpool","Seattle","Sydney","Melbourne","Denver","Chicago","Toronto","Vancouver"].sort
+      puts ""
       @city = prompt.select("Please select the city you'd like to search:", choices)
+      puts ""
       puts "-------------------------------------------------------------------"
-        progressbar = ProgressBar.create(title: "Switching to #{@city}" )
-      get_event_from_api(@city)
-      30.times { progressbar.increment; sleep 0.03}
+       # progressbar = ProgressBar.create(title: "Switching to #{@city}" )
+       spinner = TTY::Spinner.new("Switching to #{@city} :spinner ", format: :arrow_pulse)
+       spinner.auto_spin
+       get_event_from_api(@city)
+       spinner.stop
+       # puts "Done!"
+
+       # 30.times { progressbar.increment; sleep 0.03}
       @city
     end
 
     def select_event_from_list(events)
       if events == []
+        puts ""
         puts "No matching events found"
           main_menu
           return nil
         else
-      prompt = TTY::Prompt.new
+      prompt = TTY::Prompt.new(active_color: :cyan)
       events = events.map{|event| event.values.join(" -- ")}
       # puts "Here's a list of the 10 most popular events in your location"
       # puts "*******************************************************************"
         choices = []
 
-          events.map { |event| choices << "#{event}" }
-          choices << "Back to main menu..."
+          events.map { |event| choices << "•#{event}" }
+          choices << "•Back to main menu..."
 
-        puts "*****************************************************************"
-
+        puts "-------------------------------------------------------------------"
+        puts ""
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
-          if choice == "Back to main menu..."
+          if choice == "•Back to main menu..."
             main_menu
             return nil
           else
@@ -97,20 +134,21 @@ require 'tty-table'
     end
 
       def saved_events_menu
-
-        prompt = TTY::Prompt.new
+        table = TTY::Table.new header:['NAMES','EVENT']
+        prompt = TTY::Prompt.new(active_color: :cyan)
         selection = nil
 
-        choices = ["View saved events", "Other users attending your events","Main menu"]
+        choices = {"•View saved events": 1, "•Other users attending your events": 2 ,"•Main menu": 3}
         selection = prompt.select("Choose an option below:", choices)
 
-          if selection ==  "View saved events"
+          if selection ==  1
 
               @user.view_saved_events
 
-          elsif selection == "Other users attending your events"
-            puts "**********"
-            puts "other user events:"
+          elsif selection == 2
+            puts "--------------------------------------------------------------"
+            puts ""
+            puts "other user attending your events:"
 
             (User.all - [@user]).select do |other_user|
               if !(other_user.events & @user.events).empty?
@@ -119,30 +157,44 @@ require 'tty-table'
                   also_attending = other_user.events.select {|other_user_event| current_user_event == other_user_event}
 
                   also_attending.each do |other_event|
-                    puts "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
-                    puts "---------------------------"
+
+                    table << ["#{other_user.name.capitalize}","#{other_event.event_name[0..20]}"]
+                    table << ["----------","--------------------"]
+
+                    # attending = "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
+                    # puts attending
+                    # attending.length.times {print "-"}
+
+
                   end
 
                 end
               end
 
             end
+              binding.pry
+              puts table.render(:unicode)
 
-          elsif selection == "Main menu"
+
+          elsif selection == 3
 
               main_menu
 
           end
+      end
+
 
     def filter_menu(hash)
       # binding.pry
-      prompt = TTY::Prompt.new
-      choice = ["By artist", "By date", "By venue", "Exit to main menu..."]
+      prompt = TTY::Prompt.new(active_color: :cyan)
+      choice = {"•By artist": 1, "•By date": 2 , "•By venue": 3, "•Main menu": 4}
+      puts ""
       selection = prompt.select("Choose how you would like to filter", choice)
 
       case selection
 
-      when "By artist"
+      when 1
+        puts ""
         puts "Please enter the name of the artist:"
           matching_events = []
           artist = gets.chomp
@@ -156,8 +208,9 @@ require 'tty-table'
                @user.create_new_event_ticket(event)
              end
 
-      when "By date"
-        puts "Please enter the date in YYYY-MM-DD format"
+      when 2
+        puts ""
+        puts "Please enter the date in DD-MM-YYYY format"
         matching_events = []
          date = gets.chomp
          hash.select do |event|
@@ -171,7 +224,8 @@ require 'tty-table'
             @user.create_new_event_ticket(event)
           end
 
-      when "By venue"
+      when 3
+        puts ""
         puts "Please enter the name of the venue"
         matching_events = []
           venue = gets.chomp
@@ -185,68 +239,89 @@ require 'tty-table'
              @user.create_new_event_ticket(event)
            end
 
-        when "Exit to main menu..."
+        when 4
           main_menu
       end
     end
 
 
-      end
-
-
     def main_menu
 
 
-        prompt = TTY::Prompt.new
+        prompt = TTY::Prompt.new(active_color: :cyan)
         selection = nil
         selected_event = nil
-        until selection == "Exit Program"
+        until selection == 6
           #add "Switch city" "Filter search" "sign out"
 
-          choice = ["Select from list of popular events in your area", "Search events in your area by artist, date or venue", "Saved events", "Change city", "Sign out", "Exit Program"]
+          choice = {"•Poular events in your area": 1 , "•Filter event search": 2, "•Saved events": 3, "•Change city": 4, "•Sign out": 5 , "•Exit": 6}
+          puts ""
 
-          selection = prompt.select("Please select from the menu:", choice)
+          selection = prompt.select("Please select from the menu:", choice, )
 
           case selection
 
           # when "Select your city"
           #   city = get_location
+          # when ""
+          #   main_menu
 
-          when "Select from list of popular events in your area"
+        when 1
 
             selected_event = select_event_from_list(@event_array[0..19])
               if selected_event == nil
                 main_menu
               else
+                event_animation(selected_event)
                 @user.create_new_event_ticket(selected_event)
               end
 
-          when "Search events in your area by artist, date or venue"
-            filter_menu(@event_array)
+          when 2
+            # filter_menu(@event_array)
               filter_menu(@event_array)
 
 
-          when "Saved events"
+          when 3
 
             saved_events_menu
 
-          when "Change city"
+          when 4
 
               get_location
 
-          when "Sign out"
+          when 5
             puts ""
             puts "Goodbye #{@user.name.capitalize}. You are now signed out."
-            puts "--------------------------------------------"
             puts ""
+            puts "--------------------------------------------"
             sign_in_welcome_page
             get_location
 
 
-          when "Exit Program"
+          when 6
             puts "Goodbye!"
              exit
 
           end
        end
+    end
+
+
+    def event_animation(event)
+      font = TTY::Font.new(:standard)
+          event_title = event.split("--")
+          event_name = event_title[0].delete("•")
+          event_name = event_name[0..20]
+        puts ""
+        puts "Congratulations #{@user.name.capitalize} you are attending:"
+
+          if   event_name.length > 20
+            system("artii '#{event_name.upcase} ...' | lolcat -a -d 2")
+          else
+            system("artii '#{event_name.upcase}' | lolcat -a -d 2")
+          end
+        # puts font.write("#{event_name.upcase}",letter_spacing: 2)
+
+        puts "check saved events to view details and your other saved events"
+
     end

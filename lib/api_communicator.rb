@@ -14,7 +14,7 @@ def get_event_from_api(location)
     # else
 
         response_hash["_embedded"]["events"].map do |event|
-        @event_array <<  {name: event['name'], date: event['dates']['start']['localDate'], venue: event['_embedded']['venues'][0]['name']}
+        @event_array <<  {name: event['name'], date: event['dates']['start']['localDate'].split("-").reverse.join("-"), venue: event['_embedded']['venues'][0]['name']}
         end
     # end
 
