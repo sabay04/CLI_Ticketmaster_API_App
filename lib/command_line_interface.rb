@@ -9,7 +9,7 @@ require 'tty-font'
 
 
   def user
-    @user
+    $user
   end
 
     def welcome
@@ -38,7 +38,7 @@ require 'tty-font'
 
     def log_in #if user already has a login otherwise it will send them to sign up
       username = get_user_name
-      @user = User.create_user(username)
+      $user = User.create_user(username)
     end
 
     def sign_up  #first check if name entered is in users. if it is  then ask for another name if it isnt then save to users
@@ -48,11 +48,11 @@ require 'tty-font'
               puts "Sorry this #{username.capitalize} has been taken. Please try again."
               sign_up
           else
-              @user = User.create(name: username)
+              $user = User.create(name: username)
               puts ""
               puts "Welcome #{username.capitalize}, thank you for signing up to Sounds Good."
           end
-        @user
+        $user
     end
 
     def sign_in_welcome_page
@@ -126,17 +126,18 @@ require 'tty-font'
 
           if selection ==  1
 
-              @user.view_saved_events
+              $user.view_saved_events
 
           elsif selection == 2
             puts "--------------------------------------------------------------"
             puts ""
             puts "other user attending your events:"
 
-            (User.all - [@user]).select do |other_user|
-              if !(other_user.events & @user.events).empty?
+            (User.all - [$user]).select do |other_user|
 
-                @user.events.each do |current_user_event|
+              if !(other_user.events & $user.events).empty?
+
+                $user.events.each do |current_user_event|
                   also_attending = other_user.events.select {|other_user_event| current_user_event == other_user_event}
 
                   also_attending.each do |other_event|
@@ -153,7 +154,7 @@ require 'tty-font'
 
           elsif selection == 3
 
-            @user.remove_event
+            $user.remove_event
 
           elsif selection == 4
               main_menu
@@ -182,7 +183,7 @@ require 'tty-font'
            end
            event = select_event_from_list(matching_events)
              if event
-               @user.create_new_event_ticket(event)
+               $user.create_new_event_ticket(event)
              end
 
       when 2
@@ -198,7 +199,7 @@ require 'tty-font'
 
         event = select_event_from_list(matching_events)
           if event
-            @user.create_new_event_ticket(event)
+            $user.create_new_event_ticket(event)
           end
 
       when 3
@@ -213,7 +214,7 @@ require 'tty-font'
          end
          event = select_event_from_list(matching_events)
            if event
-             @user.create_new_event_ticket(event)
+             $user.create_new_event_ticket(event)
            end
 
         when 4
@@ -247,7 +248,7 @@ require 'tty-font'
               if selected_event == nil
                 main_menu
               else
-                @user.create_new_event_ticket(selected_event)
+                $user.create_new_event_ticket(selected_event)
               end
 
           when 2
@@ -266,7 +267,7 @@ require 'tty-font'
 
           when 5
             puts ""
-            puts "Goodbye #{@user.name.capitalize}. You are now signed out."
+            puts "Goodbye #{$user.name.capitalize}. You are now signed out."
             puts ""
             puts "--------------------------------------------"
             sign_in_welcome_page
