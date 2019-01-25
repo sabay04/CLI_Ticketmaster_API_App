@@ -15,6 +15,4 @@ welcome
 sign_in_welcome_page
 
 get_location
-
-# binding.pry
 main_menu

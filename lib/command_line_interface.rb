@@ -8,28 +8,20 @@ require "tty-spinner"
 require 'tty-font'
 
 
-
-
-
-
-
   def user
     @user
   end
 
     def welcome
           system("clear")
-
               puts "Welcome to \n"
               puts  "--------------------------------------------------------------------- \n"
-              system ("artii 'Sounds Good !' | lolcat -a -d 4")
+              system ("artii 'Sounds Good !' | lolcat -a -d 2")
               puts  "--------------------------------------------------------------------- \n"
               puts "The world's ONLY concert searching app®"
               puts ""
               puts "An app to find events in your area and add them to your diary"
           puts  "------------------------------------------------------------------- \n"
-
-
 
     end
 
@@ -38,7 +30,7 @@ require 'tty-font'
         puts "Please enter your name: "
         puts "-------------------------------------------------------------------"
         name = gets.chomp.downcase
-        # puts "Hi #{name.capitalize} nice to meet you"
+
         puts "-------------------------------------------------------------------"
 
         name
@@ -70,7 +62,7 @@ require 'tty-font'
 
       choices = {"•Log in": 1, "•Sign up": 2}
       puts ""
-      selection = prompt.select("Hello,Please pick and option:", choices)
+      selection = prompt.select("Hello, please pick an option:", choices)
         if selection ==  1
           log_in
         elsif selection == 2
@@ -82,24 +74,22 @@ require 'tty-font'
     def get_location
       prompt = TTY::Prompt.new(active_color: :cyan)
 
-
       choices = ["London", "Dublin", "Manchester", "New York", "Miami","Los Angeles","Glasgow","Liverpool","Seattle","Sydney","Melbourne","Denver","Chicago","Toronto","Vancouver"].sort
       puts ""
       @city = prompt.select("Please select the city you'd like to search:", choices)
       puts ""
       puts "-------------------------------------------------------------------"
-       # progressbar = ProgressBar.create(title: "Switching to #{@city}" )
+
        spinner = TTY::Spinner.new("Switching to #{@city} :spinner ", format: :arrow_pulse)
        spinner.auto_spin
        get_event_from_api(@city)
        spinner.stop
-       # puts "Done!"
 
-       # 30.times { progressbar.increment; sleep 0.03}
       @city
     end
 
     def select_event_from_list(events)
+
       if events == []
         puts ""
         puts "No matching events found"
@@ -107,14 +97,12 @@ require 'tty-font'
           return nil
         else
       prompt = TTY::Prompt.new(active_color: :cyan)
-      events = events.map{|event| event.values.join(" -- ")}
-      # puts "Here's a list of the 10 most popular events in your location"
-      # puts "*******************************************************************"
+      events_list = events.map{|event| event.values.join(" -- ")}
+
         choices = []
 
-          events.map { |event| choices << "•#{event}" }
+          events_list.map { |event| choices << "•#{event}" }
           choices << "•Back to main menu..."
-
         puts "-------------------------------------------------------------------"
         puts ""
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
@@ -155,17 +143,10 @@ require 'tty-font'
 
                     table << ["#{other_user.name.capitalize}","#{other_event.event_name[0..20]}"]
                     table << ["----------","--------------------"]
-
-                    # attending = "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
-                    # puts attending
-                    # attending.length.times {print "-"}
-
-
                   end
-
                 end
-              end
 
+              end
             end
 
             puts table.render(:unicode)
@@ -175,7 +156,6 @@ require 'tty-font'
             @user.remove_event
 
           elsif selection == 4
-
               main_menu
 
           end
@@ -183,7 +163,6 @@ require 'tty-font'
 
 
     def filter_menu(hash)
-      # binding.pry
       prompt = TTY::Prompt.new(active_color: :cyan)
       choice = {"•By artist": 1, "•By date": 2 , "•By venue": 3, "•Main menu": 4}
       puts ""
@@ -250,7 +229,7 @@ require 'tty-font'
         selection = nil
         selected_event = nil
         until selection == 6
-          #add "Switch city" "Filter search" "sign out"
+
 
           choice = {"•Popular events in your area": 1 , "•Filter event search": 2, "•Saved events": 3, "•Change city": 4, "•Sign out": 5 , "•Exit": 6}
           puts ""
@@ -259,29 +238,27 @@ require 'tty-font'
 
           case selection
 
-          # when "Select your city"
-          #   city = get_location
-          # when ""
-          #   main_menu
+
 
         when 1
 
-            selected_event = select_event_from_list(@event_array[0..19])
+            selected_event = select_event_from_list($event_array[0..19])
+
               if selected_event == nil
                 main_menu
               else
-                event_animation(selected_event)
                 @user.create_new_event_ticket(selected_event)
               end
 
           when 2
 
-              filter_menu(@event_array)
+
+              filter_menu($event_array)
 
 
           when 3
 
-            saved_events_menu
+              saved_events_menu
 
           when 4
 
@@ -294,6 +271,7 @@ require 'tty-font'
             puts "--------------------------------------------"
             sign_in_welcome_page
             get_location
+
 
 
           when 6
@@ -311,15 +289,12 @@ require 'tty-font'
           event_name = event_title[0].delete("•")
           event_name = event_name[0..20]
         puts ""
-        puts "Congratulations #{@user.name.capitalize} you are attending:"
-
+        puts "Congratulations #{self.name.capitalize} you are attending:"
           if   event_name.length > 20
             system("artii '#{event_name.upcase} ...' | lolcat -a -d 2")
           else
             system("artii '#{event_name.upcase}' | lolcat -a -d 2")
           end
-        # puts font.write("#{event_name.upcase}",letter_spacing: 2)
 
-        puts "check saved events to view details and your other saved events"
-
+        puts "Check saved events to view details and your other saved events"
     end
