@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
       user
     else
       puts ""
-      puts 'User not found, please sign_up below'
+      puts 'User not found, please sign up below'
       sign_up
       # User.create(name: name)
     end
@@ -26,15 +26,27 @@ class User < ActiveRecord::Base
     date =  event_string[1]
     venue =  event_string[2]
 
-    # new_event = Event.create(event_name: name, date: date, venue: venue)
     new_event = Event.find_or_create_by(event_name: name, date: date, venue: venue)
-    Ticket.create(user_id: self.id, event_id: new_event.id)
+    ticket = Ticket.find_by(user_id: self.id, event_id: new_event.id)
+      if ticket
+        puts "You're already attending this event!"
+      else
+        Ticket.create(user_id: self.id, event_id: new_event.id)
+        event_animation(string)
+      end
   end
+
 
   def view_saved_events
     #either find a list of instances saved events
     table = TTY::Table.new header: ['EVENTS','VENUES','DATES']
     # table << ["PINK","27th","02"]
+    if self.events.length == 0
+      puts ""
+      puts "You don't have any saved events yet!"
+    else
+
+
     puts ""
     puts "Your upcoming events are: "
     puts ""
@@ -46,16 +58,18 @@ class User < ActiveRecord::Base
 
         # puts table.render(:unicode, resize: true)
         # puts "-------------------"
+      end
     end
     puts table.render(:unicode)
     #or if none found prompts to search.
+    saved_events_menu
   end
 
 
 
 
   def remove_event
-
+    binding.pry
     prompt = TTY::Prompt.new(active_color: :cyan)
 
     event_choice =[]
@@ -71,12 +85,12 @@ class User < ActiveRecord::Base
        puts ""
        selection = prompt.select("Select the event you would like to remove: ", event_choice)
 
-       if selection == "•Main menu..."
+       if selection == "•Main Menu"
          main_menu
-         # return nil
+
+
        else
-
-
+         binding.pry
          event_attribute = selection.split(" -- ")
          name =  event_attribute[0]
          date =  event_attribute[1]
@@ -86,10 +100,9 @@ class User < ActiveRecord::Base
          event = Event.find_by(event_name: name, date: date, venue: venue)
 
          Ticket.where(user_id: self.id, event_id: event.id).destroy_all
-         puts "" 
+         puts ""
          puts "#{name} has been deleted from your saved events"
+         remove_event
      end
-
-  end
-
+   end
 end

@@ -13,6 +13,7 @@ def get_event_from_api(location)
     #   puts "City not currently available for search, check back again soon!"
     # else
 
+
         response_hash["_embedded"]["events"].map do |event|
         @event_array <<  {name: event['name'], date: event['dates']['start']['localDate'].split("-").reverse.join("-"), venue: event['_embedded']['venues'][0]['name']}
         end
