@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
 
   def remove_event
 
-    prompt = TTY::Prompt.new(active_color: :cyan)
+    prompt = TTY::Prompt.new(active_color: :magenta)
 
     event_choice =[]
 

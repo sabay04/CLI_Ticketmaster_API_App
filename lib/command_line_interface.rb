@@ -57,7 +57,7 @@ require 'tty-font'
 
     def sign_in_welcome_page
 
-      prompt = TTY::Prompt.new(active_color: :cyan)
+      prompt = TTY::Prompt.new(active_color: :magenta)
       selection = nil
 
       choices = {"•Log in": 1, "•Sign up": 2}
@@ -72,7 +72,7 @@ require 'tty-font'
 
 
     def get_location
-      prompt = TTY::Prompt.new(active_color: :cyan)
+      prompt = TTY::Prompt.new(active_color: :magenta)
 
       choices = ["London", "Dublin", "Manchester", "New York", "Miami","Los Angeles","Glasgow","Liverpool","Seattle","Sydney","Melbourne","Denver","Chicago","Toronto","Vancouver"].sort
       puts ""
@@ -96,7 +96,7 @@ require 'tty-font'
           main_menu
           return nil
         else
-      prompt = TTY::Prompt.new(active_color: :cyan)
+      prompt = TTY::Prompt.new(active_color: :magenta)
       events_list = events.map{|event| event.values.join(" -- ")}
 
         choices = []
@@ -117,12 +117,13 @@ require 'tty-font'
 
       def saved_events_menu
         table = TTY::Table.new header:['NAMES','EVENT']
-        prompt = TTY::Prompt.new(active_color: :cyan)
+        prompt = TTY::Prompt.new(active_color: :magenta)
         selection = nil
 
         choices = {"•View saved events": 1, "•Other users attending your events": 2,"•Remove saved events":3 ,"•Main menu": 4}
         puts ""
         selection = prompt.select("Choose an option below:", choices)
+
 
           if selection ==  1
 
@@ -164,7 +165,7 @@ require 'tty-font'
 
 
     def filter_menu(hash)
-      prompt = TTY::Prompt.new(active_color: :cyan)
+      prompt = TTY::Prompt.new(active_color: :magenta)
       choice = {"•By artist": 1, "•By date": 2 , "•By venue": 3, "•Main menu": 4}
       puts ""
       selection = prompt.select("Choose how you would like to filter", choice)
@@ -226,13 +227,13 @@ require 'tty-font'
     def main_menu
 
 
-        prompt = TTY::Prompt.new(active_color: :cyan)
+        prompt = TTY::Prompt.new(active_color: :magenta)
         selection = nil
         selected_event = nil
         until selection == 6
 
 
-          choice = {"•Popular events in your area": 1 , "•Filter event search": 2, "•Saved events": 3, "•Change city": 4, "•Sign out": 5 , "•Exit": 6}
+          choice = {"•Popular events in #{@city}": 1 , "•Filter event search": 2, "•Saved events": 3, "•Change city": 4, "•Sign out": 5 , "•Exit": 6}
           puts ""
 
           selection = prompt.select("Please select from the menu:", choice, )
@@ -288,11 +289,12 @@ require 'tty-font'
       font = TTY::Font.new(:standard)
           event_title = event.split("--")
           event_name = event_title[0].delete("•")
-          event_name = event_name[0..20]
+          # event_name = event_name
         puts ""
         puts "Congratulations #{self.name.capitalize} you are attending:"
           if   event_name.length > 20
-            system("artii '#{event_name.upcase} ...' | lolcat -a -d 2")
+            system("artii '#{event_name[0..20].upcase} -' | lolcat -a -d 2")
+            system("artii '#{event_name[21..40].upcase}' | lolcat -a -d 2")
           else
             system("artii '#{event_name.upcase}' | lolcat -a -d 2")
           end
