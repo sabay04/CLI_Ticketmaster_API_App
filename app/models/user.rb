@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
       puts ""
       puts 'User not found, please sign_up below'
       sign_up
-      # User.create(name: name)
+
     end
 
   end
@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     date =  event_string[1]
     venue =  event_string[2]
 
-    # new_event = Event.create(event_name: name, date: date, venue: venue)
+
     new_event = Event.find_or_create_by(event_name: name, date: date, venue: venue)
     Ticket.create(user_id: self.id, event_id: new_event.id)
   end
@@ -34,19 +34,17 @@ class User < ActiveRecord::Base
   def view_saved_events
     #either find a list of instances saved events
     table = TTY::Table.new header: ['EVENTS','VENUES','DATES']
-    # table << ["PINK","27th","02"]
+
 
     puts ""
     puts "Your upcoming events are: "
     puts ""
     self.reload.events.each do |event|
-        # puts "------------EVENT--------------DATE-------------VENUE---------------"
-        # puts "#{event.event_name} | #{event.date} | #{event.venue}"
+
          table << ["#{event.event_name[0..20]}", "#{event.venue[0..20]}", "#{event.date}"]
          table << ["----------------------","----------------------","----------------"]
 
-        # puts table.render(:unicode, resize: true)
-        # puts "-------------------"
+
 
     end
     puts table.render(:unicode)
@@ -64,7 +62,7 @@ class User < ActiveRecord::Base
 
 
       self.reload.events.each do  |event_object|
-        # binding.pry
+
         event_choice << "#{event_object.event_name} -- #{event_object.date} -- #{event_object.venue}"
 
       end
@@ -73,7 +71,7 @@ class User < ActiveRecord::Base
        puts ""
        selection = prompt.select("Select the event you would like to remove: ", event_choice)
 
-       if selection == "•Main menu..."
+       if selection == "•Main Menu"
          main_menu
          # return nil
        else
@@ -88,7 +86,7 @@ class User < ActiveRecord::Base
          event = Event.find_by(event_name: name, date: date, venue: venue)
 
          Ticket.where(user_id: self.id, event_id: event.id).destroy_all
-         puts "" 
+         puts ""
          puts "#{name} has been deleted from your saved events"
      end
 

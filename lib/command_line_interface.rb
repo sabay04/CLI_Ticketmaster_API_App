@@ -252,7 +252,7 @@ require 'tty-font'
         until selection == 6
           #add "Switch city" "Filter search" "sign out"
 
-          choice = {"•Poular events in your area": 1 , "•Filter event search": 2, "•Saved events": 3, "•Change city": 4, "•Sign out": 5 , "•Exit": 6}
+          choice = {"•Popular events in your area": 1 , "•Filter event search": 2, "•Saved events": 3, "•Change city": 4, "•Sign out": 5 , "•Exit": 6}
           puts ""
 
           selection = prompt.select("Please select from the menu:", choice, )
