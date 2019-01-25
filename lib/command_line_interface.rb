@@ -8,10 +8,6 @@ require "tty-spinner"
 require 'tty-font'
 
 
-
-
-
-
   def user
     @user
   end
@@ -66,7 +62,7 @@ require 'tty-font'
 
       choices = {"•Log in": 1, "•Sign up": 2}
       puts ""
-      selection = prompt.select("Hello,Please pick and option:", choices)
+      selection = prompt.select("Hello, please pick an option:", choices)
         if selection ==  1
           log_in
         elsif selection == 2
@@ -77,7 +73,6 @@ require 'tty-font'
 
     def get_location
       prompt = TTY::Prompt.new(active_color: :cyan)
-
 
       choices = ["London", "Dublin", "Manchester", "New York", "Miami","Los Angeles","Glasgow","Liverpool","Seattle","Sydney","Melbourne","Denver","Chicago","Toronto","Vancouver"].sort
       puts ""
@@ -110,7 +105,6 @@ require 'tty-font'
 
           events.map { |event| choices << "•#{event}" }
           choices << "•Back to main menu..."
-
         puts "-------------------------------------------------------------------"
         puts ""
         choice = prompt.select("Select the the event you'd like to attend: ", choices, per_page: 21)
@@ -155,20 +149,16 @@ require 'tty-font'
                     # attending = "#{other_user.name.capitalize} will also be attending #{other_event.event_name}."
                     # puts attending
                     # attending.length.times {print "-"}
-
-
                   end
-
                 end
               end
-
             end
 
             puts table.render(:unicode)
 
           elsif selection == 3
 
-            @user.remove_event
+            user.remove_event
 
           elsif selection == 4
 
@@ -179,7 +169,6 @@ require 'tty-font'
 
 
     def filter_menu(hash)
-      # binding.pry
       prompt = TTY::Prompt.new(active_color: :cyan)
       choice = {"•By artist": 1, "•By date": 2 , "•By venue": 3, "•Main menu": 4}
       puts ""
@@ -266,7 +255,6 @@ require 'tty-font'
               if selected_event == nil
                 main_menu
               else
-                event_animation(selected_event)
                 @user.create_new_event_ticket(selected_event)
               end
 
@@ -292,6 +280,7 @@ require 'tty-font'
             get_location
 
 
+
           when 6
             puts "Goodbye!"
              exit
@@ -307,15 +296,12 @@ require 'tty-font'
           event_name = event_title[0].delete("•")
           event_name = event_name[0..20]
         puts ""
-        puts "Congratulations #{@user.name.capitalize} you are attending:"
-
+        puts "Congratulations #{self.name.capitalize} you are attending:"
           if   event_name.length > 20
             system("artii '#{event_name.upcase} ...' | lolcat -a -d 2")
           else
             system("artii '#{event_name.upcase}' | lolcat -a -d 2")
           end
         # puts font.write("#{event_name.upcase}",letter_spacing: 2)
-
-        puts "check saved events to view details and your other saved events"
-
+        puts "Check saved events to view details and your other saved events"
     end
